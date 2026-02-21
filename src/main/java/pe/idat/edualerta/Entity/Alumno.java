@@ -30,8 +30,9 @@ public class Alumno {
     private String grado;
     private String seccion;
 
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private Estado estado;
+    private Estado estado = Estado.ACTIVO; // 🔹 predeterminado
 
     public enum Estado {
         ACTIVO, INACTIVO
