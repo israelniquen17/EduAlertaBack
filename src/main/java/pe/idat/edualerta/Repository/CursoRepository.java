@@ -5,9 +5,9 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import pe.idat.edualerta.Entity.Usuario;
+import pe.idat.edualerta.Entity.Curso;
 
 @Repository
-public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
-    Optional<Usuario> findByUsuario(String usuario);
+public interface CursoRepository extends JpaRepository<Curso, Long> {
+    Optional<Curso> findByNombre(String nombre);
 }

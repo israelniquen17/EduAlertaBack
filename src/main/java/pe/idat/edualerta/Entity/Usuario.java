@@ -25,7 +25,7 @@ public class Usuario {
     private Estado estado;
 
     public enum Rol {
-        ADMIN, DOCENTE
+        ADMIN, DOCENTE, PADRE
     }
 
     public enum Estado {
