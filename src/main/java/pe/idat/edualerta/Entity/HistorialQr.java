@@ -14,12 +14,12 @@ public class HistorialQr {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "alumno_id", nullable = false)
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "alumno_id")
     private Alumno alumno;
 
-    @Column(name = "fecha_escaneo", nullable = false)
+    @Column(name = "fecha_escaneo")
     private LocalDateTime fechaEscaneo;
 
-    private String dispositivo; // Opcional: desde qué dispositivo se escaneó
+    private String dispositivo;
 }

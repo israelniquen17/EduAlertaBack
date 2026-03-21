@@ -8,4 +8,6 @@ import pe.idat.edualerta.Entity.Alumno;
 @Repository
 public interface AlumnoRepository extends JpaRepository<Alumno, Long> {
     Optional<Alumno> findByDni(String dni);
+    boolean existsByDni(String dni);
+    
 }

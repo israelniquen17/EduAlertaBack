@@ -3,7 +3,7 @@ package pe.idat.edualerta.Service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pe.idat.edualerta.Entity.HistorialQr;
-import pe.idat.edualerta.Repository.HistorialRepository;
+import pe.idat.edualerta.Repository.HistorialQrRepository;
 
 import java.util.List;
 
@@ -11,7 +11,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class HistorialService {
 
-    private final HistorialRepository repository;
+    private final HistorialQrRepository repository;
 
     public HistorialQr guardar(HistorialQr historial) {
         return repository.save(historial);

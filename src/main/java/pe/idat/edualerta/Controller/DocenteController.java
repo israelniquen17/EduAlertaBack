@@ -1,12 +1,11 @@
 package pe.idat.edualerta.Controller;
 
-import java.util.List;
-
-import org.springframework.web.bind.annotation.*;
-
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.*;
 import pe.idat.edualerta.Entity.Docente;
 import pe.idat.edualerta.Service.DocenteService;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/docentes")
@@ -29,6 +28,16 @@ public class DocenteController {
     @PutMapping("/{id}")
     public Docente actualizar(@PathVariable Long id, @RequestBody Docente docente) {
         return service.actualizar(id, docente);
+    }
+
+    @PutMapping("/{docenteId}/asignar-curso/{cursoId}")
+    public Docente asignarCurso(@PathVariable Long docenteId, @PathVariable Long cursoId) {
+        return service.asignarCurso(docenteId, cursoId);
+    }
+
+    @DeleteMapping("/{id}/quitar-curso/{cursoId}")
+    public Docente quitarCurso(@PathVariable Long id, @PathVariable Long cursoId) {
+        return service.quitarCurso(id, cursoId);
     }
 
     @DeleteMapping("/{id}")

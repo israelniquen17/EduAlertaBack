@@ -1,5 +1,7 @@
 package pe.idat.edualerta.Entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -17,13 +19,14 @@ public class Padre {
 
     private String nombres;
     private String apellidos;
+    private String telefono;
 
-    // Relación con Alumno
+    // 🔥 CORTA LA RECURSIVIDAD
     @ManyToOne
     @JoinColumn(name = "alumno_id")
+    @JsonBackReference
     private Alumno alumno;
 
-    // Relación con Usuario
     @ManyToOne
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;

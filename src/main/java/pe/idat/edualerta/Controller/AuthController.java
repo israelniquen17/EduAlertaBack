@@ -17,21 +17,23 @@ public class AuthController {
 
     private final AuthService authService;
 
-    // 🔹 LOGIN
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginRequest request) {
+public ResponseEntity<?> login(@RequestBody LoginRequest request) {
+    System.out.println("LOGIN POST /api/auth/login");
+    System.out.println("usuario recibido: [" + request.getUsuario() + "]");
+    System.out.println("password recibida: [" + request.getPassword() + "]");
 
-            Usuario user = authService.authenticate(request.getUsuario(), request.getPassword());
-        if (user == null) {
-            return ResponseEntity
-                    .status(HttpStatus.UNAUTHORIZED)
-                    .body(Map.of("mensaje", "Usuario o contraseña incorrecta"));
-        }
+    Usuario user = authService.authenticate(request.getUsuario(), request.getPassword());
 
-        user.setPassword(null); // no enviamos la contraseña
-        return ResponseEntity.ok(user);
+    if (user == null) {
+        return ResponseEntity
+                .status(HttpStatus.UNAUTHORIZED)
+                .body(Map.of("mensaje", "Usuario o contraseña incorrecta"));
     }
 
+    user.setPassword(null);
+    return ResponseEntity.ok(user);
+}
     // 🔹 REGISTRO DE USUARIO NUEVO
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody RegisterRequest request) {

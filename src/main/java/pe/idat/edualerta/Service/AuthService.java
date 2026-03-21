@@ -54,49 +54,47 @@ public class AuthService {
      * 🔹 LOGIN
      */
     public Usuario authenticate(String usuario, String password) {
+    Optional<Usuario> optionalUser = usuarioRepository.findByUsuario(usuario);
 
-        Optional<Usuario> optionalUser = usuarioRepository.findByUsuario(usuario);
-
-        if (optionalUser.isEmpty()) {
-            return null;
-        }
-
-        Usuario user = optionalUser.get();
-
-        if (user.getEstado() != Usuario.Estado.ACTIVO) {
-            return null;
-        }
-
-        String storedPassword = user.getPassword();
-
-        if (storedPassword == null || storedPassword.isBlank()) {
-            return null;
-        }
-
-        // 🔥 Si la contraseña está en texto plano (caso BD manual)
-        if (!isBCryptHash(storedPassword)) {
-
-            // Si coincide en texto plano
-            if (storedPassword.equals(password)) {
-
-                // 🔐 Convertimos automáticamente a BCrypt
-                user.setPassword(passwordEncoder.encode(password));
-                usuarioRepository.save(user);
-
-                return user;
-            }
-
-            return null;
-        }
-
-        // 🔐 Caso normal BCrypt
-        if (passwordEncoder.matches(password, storedPassword)) {
-            return user;
-        }
-
+    if (optionalUser.isEmpty()) {
+        System.out.println("No existe usuario: [" + usuario + "]");
         return null;
     }
 
+    Usuario user = optionalUser.get();
+
+    System.out.println("Usuario encontrado: " + user.getUsuario());
+    System.out.println("Estado: " + user.getEstado());
+    System.out.println("Rol: " + user.getRol());
+    System.out.println("Password enviada: [" + password + "]");
+    System.out.println("Hash guardado: [" + user.getPassword() + "]");
+    System.out.println("Coincide password: " + passwordEncoder.matches(password, user.getPassword()));
+
+    if (user.getEstado() != Usuario.Estado.ACTIVO) {
+        return null;
+    }
+
+    String storedPassword = user.getPassword();
+
+    if (storedPassword == null || storedPassword.isBlank()) {
+        return null;
+    }
+
+    if (!isBCryptHash(storedPassword)) {
+        if (storedPassword.equals(password)) {
+            user.setPassword(passwordEncoder.encode(password));
+            usuarioRepository.save(user);
+            return user;
+        }
+        return null;
+    }
+
+    if (passwordEncoder.matches(password, storedPassword)) {
+        return user;
+    }
+
+    return null;
+}
     /**
      * 🔹 REGISTRO
      */

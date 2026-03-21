@@ -1,15 +1,13 @@
 package pe.idat.edualerta.Entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "notificacion")
-@Getter
-@Setter
+@Data
 public class Notificacion {
 
     @Id
@@ -21,6 +19,8 @@ public class Notificacion {
     private Padre padre;
 
     private String mensaje;
+
     private Boolean leido = false;
-    private LocalDateTime fecha = LocalDateTime.now();
+
+    private LocalDateTime fecha;
 }

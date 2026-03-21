@@ -1,14 +1,11 @@
 package pe.idat.edualerta.Entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import lombok.*;
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import jakarta.persistence.*;
+import lombok.Data;
 
 @Entity
 @Table(name = "alumno")
@@ -27,12 +24,22 @@ public class Alumno {
 
     private String nombres;
     private String apellidos;
+
     private String grado;
     private String seccion;
 
-    @Column(nullable = false)
+    // RELACION CON TABLA NIVEL
+    @ManyToOne
+    @JoinColumn(name = "nivel_id")
+    private Nivel nivel;
+
     @Enumerated(EnumType.STRING)
-    private Estado estado = Estado.ACTIVO; // 🔹 predeterminado
+    @Column(nullable = false)
+    private Estado estado = Estado.ACTIVO;
+
+    @OneToMany(mappedBy = "alumno", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<Padre> padres;
 
     public enum Estado {
         ACTIVO, INACTIVO

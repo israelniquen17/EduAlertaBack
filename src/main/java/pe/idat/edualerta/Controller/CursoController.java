@@ -3,9 +3,7 @@ package pe.idat.edualerta.Controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import pe.idat.edualerta.Entity.Curso;
-import pe.idat.edualerta.Entity.Docente;
-import pe.idat.edualerta.Repository.CursoRepository;
-import pe.idat.edualerta.Repository.DocenteRepository;
+import pe.idat.edualerta.Service.CursoService;
 
 import java.util.List;
 
@@ -15,52 +13,25 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CursoController {
 
-    private final CursoRepository cursoRepository;
-
-    // 🔥 ESTA LÍNEA TE FALTABA
-    private final DocenteRepository docenteRepository;
+    private final CursoService service;
 
     @GetMapping
     public List<Curso> listar() {
-        return cursoRepository.findAll();
+        return service.listar();
     }
 
     @PostMapping
     public Curso guardar(@RequestBody Curso curso) {
-        return cursoRepository.save(curso);
+        return service.guardar(curso);
     }
 
     @PutMapping("/{id}")
     public Curso actualizar(@PathVariable Long id, @RequestBody Curso curso) {
-        Curso existente = cursoRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Curso no encontrado"));
-
-        existente.setNombre(curso.getNombre());
-        existente.setGrado(curso.getGrado());
-        existente.setSeccion(curso.getSeccion());
-        existente.setEstado(curso.getEstado());
-
-        return cursoRepository.save(existente);
-    }
-
-    // 🔥 ENDPOINT PARA ASIGNAR DOCENTE
-    @PutMapping("/{cursoId}/asignar-docente/{docenteId}")
-    public Curso asignarDocente(@PathVariable Long cursoId,
-                                @PathVariable Long docenteId) {
-
-        Curso curso = cursoRepository.findById(cursoId)
-                .orElseThrow(() -> new RuntimeException("Curso no encontrado"));
-
-        Docente docente = docenteRepository.findById(docenteId)
-                .orElseThrow(() -> new RuntimeException("Docente no encontrado"));
-
-        curso.setDocente(docente);
-
-        return cursoRepository.save(curso);
+        return service.actualizar(id, curso);
     }
 
     @DeleteMapping("/{id}")
     public void eliminar(@PathVariable Long id) {
-        cursoRepository.deleteById(id);
+        service.eliminar(id);
     }
 }
